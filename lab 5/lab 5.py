@@ -68,11 +68,24 @@ BMI(70,1.6)
 print("Zadanie 6")
 
 def heron(a,b,c):
-    p=(a+b+c)/2
+    try:      
+        if a <= 0 or b <= 0 or c <= 0:
+            raise ValueError("Boki muszą być liczbami dodatnimi.")
 
-    print(f"Pole trojkata wynosi {(p*(p-a)*(p-b)*(p-c))**(1/2)}")
+        if (a + b <= c) or (a + c <= b) or (b + c <= a):
+            raise ValueError("Z podanych długości nie da się zbudować trójkąta.")
 
-heron(2,4,5)
+        p = (a + b + c) / 2
+        pole = (p * (p - a) * (p - b) * (p - c)) ** 0.5
+        
+        print(f"Pole trójkąta wynosi: {pole:.2f}")
+
+    except ValueError as e:
+        print(f"Błąd danych: {e}")
+    except TypeError:
+        print("Błąd typu: Podane wartości muszą być liczbami.")
+    except Exception as e:
+        print(f"Wystąpił nieoczekiwany błąd: {e}")
 
 
 
