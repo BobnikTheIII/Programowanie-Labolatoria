@@ -1,0 +1,52 @@
+.lorem {
+    background-color: #d4feff;
+    border: 2px blue dashed;
+    width: 300px;
+    margin: auto;
+}
+
+p {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.odnosnik a {
+    color: green;
+}
+
+table {
+    margin: auto;
+    color: blue;
+    border: black 1px solid;
+    padding: 0;
+    gap: 0;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table * {
+    padding: 10px;
+    margin: 0;
+    border: 1px black solid;
+}
+
+.linia {
+    background-color: lightblue;
+}
+
+#sp1 {
+    color: red;
+}
+
+#sp2 {
+    color: orangered;
+}
+
+#sp3 {
+    color: orange;
+}
+
+ul {
+    color: blue;
+    list-style: circle;
+}
