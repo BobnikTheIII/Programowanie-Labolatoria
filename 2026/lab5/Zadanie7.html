@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function dziesNaHex(n) {
+            if (n === 0) {
+                console.log("0");
+                return;
+            }
+
+            const hex = "0123456789ABCDEF";
+            let wynik = "";
+
+            let liczba = n;
+
+            while (liczba > 0) {
+                let reszta = liczba % 16;
+                wynik = hex[reszta] + wynik;
+                liczba = Math.floor(liczba / 16);
+            }
+
+            console.log(wynik);
+        }
+        
+        dziesNaHex(255);
+        dziesNaHex(4095);
+        dziesNaHex(26);
+    </script>
+</body>
+</html>
