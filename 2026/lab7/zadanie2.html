@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularz rejestracji</title>
+</head>
+<body>
+
+<h2>Formularz rejestracji</h2>
+
+<form id="formularz">
+    <label>Nazwa użytkownika:
+        <input type="text" id="login">
+    </label>
+
+    <label>Adres e-mail:
+        <input type="text" id="email">
+    </label>
+
+    <label>Hasło:
+        <input type="password" id="haslo">
+    </label>
+
+    <label>Powtórz hasło:
+        <input type="password" id="haslo2">
+    </label>
+
+    <label>Data urodzenia:
+        <input type="date" id="data">
+    </label>
+
+    <label>Płeć:
+        <select id="plec">
+            <option value="">wybierz plec</option>
+            <option>Mężczyzna</option>
+            <option>Kobieta</option>
+            <option>Helikopter bojowy</option>
+        </select>
+    </label>
+
+    <label>
+        <input type="checkbox" id="regulamin" class="inline">
+        Akceptuję regulamin
+    </label>
+
+    <label>Wersja:
+        <br>
+        <input type="radio" name="wersja" value="Wersja darmowa" class="inline"> Wersja darmowa<br>
+        <input type="radio" name="wersja" value="Wersja standardowa" class="inline"> Wersja standardowa<br>
+        <input type="radio" name="wersja" value="Wersja premium" class="inline"> Wersja premium
+    </label>
+
+    <button type="button" onclick="waliduj()">Zarejestruj się</button>
+    <button type="reset">Reset</button>
+</form>
+
+<div id="wynik"></div>
+
+<script>
+function waliduj() {
+    const wynik = document.getElementById("wynik");
+
+    try {
+        let login = document.getElementById("login").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let haslo = document.getElementById("haslo").value;
+        let haslo2 = document.getElementById("haslo2").value;
+        let data = document.getElementById("data").value;
+        let plec = document.getElementById("plec").value;
+        let regulamin = document.getElementById("regulamin").checked;
+        let wersja = document.querySelector('input[name="wersja"]:checked');
+
+        if (!login || !email || !haslo || !haslo2 || !data || !plec || !wersja) {
+            throw new Error("Wszystkie pola muszą być wypelnione");
+        }
+
+        if (!regulamin) {
+            throw new Error("Musisz zaakceptować regulamin");
+        }
+
+        if (!/^[a-zA-Z0-9]+$/.test(login)) {
+            throw new Error("Nazwa użytkownika może zawierać tylko litery i cyfry");
+        }
+
+        if (haslo.length < 8) {
+            throw new Error("Hasło musi miec co najmniej 8 znaków");
+        }
+
+        if (!/\d/.test(haslo)) {
+            throw new Error("Hasło musi zawierać co najmniej jedną cyfre");
+        }
+
+        if (haslo !== haslo2) {
+            throw new Error("Hasła nie są takie same");
+        }
+
+        // sekcja hieroglifow xd
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error("Niepoprawny adres e-mail");
+        }
+
+        let dataUrodzenia = new Date(data);
+        let dzis = new Date();
+
+        let wiek = dzis.getFullYear() - dataUrodzenia.getFullYear();
+        let m = dzis.getMonth() - dataUrodzenia.getMonth();
+
+        if (m < 0 || (m === 0 && dzis.getDate() < dataUrodzenia.getDate())) {
+            wiek--;
+        }
+
+        if (wiek < 18) {
+            throw new Error("Musisz mieć co najmniej 18 lat");
+        }
+
+        let dzien = ("0" + dataUrodzenia.getDate()).slice(-2);
+        let miesiac = ("0" + (dataUrodzenia.getMonth() + 1)).slice(-2);
+        let rok = dataUrodzenia.getFullYear();
+
+        let dataFormat = `${dzien}.${miesiac}.${rok}`;
+
+        let maskaHasla = "*".repeat(haslo.length);
+
+        wynik.innerHTML = `
+            Nazwa użytkownika: ${login}<br>
+            Hasło: ${maskaHasla}<br>
+            Adres e-mail: ${email}<br>
+            Data urodzenia: ${dataFormat}<br>
+            Płeć: ${plec}<br>
+            Wybrana wersja: ${wersja.value}
+        `;
+
+    } catch (blad) {
+        wynik.textContent = "Błąd: " + blad.message;
+    }
+}
+</script>
+
+</body>
+</html>
