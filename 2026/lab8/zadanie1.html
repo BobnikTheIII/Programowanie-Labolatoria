@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zadanie 1</title>
+</head>
+<body>
+
+<h2>Podaj swoje dane</h2>
+
+<form id="formularz">
+  <label>Imię:
+    <input type="text" id="imie" required>
+  </label><br><br>
+
+  <label>Nazwisko:
+    <input type="text" id="nazwisko" required>
+  </label><br><br>
+
+  <label>Wiek:
+    <input type="number" id="wiek" required>
+  </label><br><br>
+
+  <button type="submit">Wyślij</button>
+</form>
+
+<script>
+  document.getElementById("formularz").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const imie = document.getElementById("imie").value;
+    const nazwisko = document.getElementById("nazwisko").value;
+    const wiek = Number(document.getElementById("wiek").value);
+
+    const osoba = {
+      imie: imie,
+      nazwisko: nazwisko,
+      wiek: wiek
+    };
+
+    console.log(osoba);
+    console.log(osoba.imie);
+    console.log(osoba.nazwisko);
+    console.log(osoba.wiek);
+
+    const json = JSON.stringify(osoba);
+    console.log(json);
+  });
+</script>
+
+</body>
+</html>

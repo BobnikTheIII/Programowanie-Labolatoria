@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zadanie 2+</title>
+</head>
+<body>
+  <span>tester funkcji 2000: </span>
+
+  <label>Ilosc liczb:</label>
+  <input type="number" id="ilosc" value="5">
+  <button onclick="test()">Testuj!</button>
+
+
+  <script>
+
+    // klasa zadanie 2
+    class ComplexNumber {
+      constructor(rzeczywiste, urojone) {
+        this.rzeczywiste = rzeczywiste;
+        this.urojone = urojone;
+      }
+
+      wypisz() {
+        const znak = this.urojone >= 0 ? "+" : "-";
+        const wartoscUrojona = Math.abs(this.urojone);
+
+        return `${this.rzeczywiste} ${znak} ${wartoscUrojona}i`;
+      }
+
+      module() {
+        return Math.sqrt(this.rzeczywiste ** 2 + this.urojone ** 2);
+      }
+    }
+
+    // funkcja zadanie 3
+    function generujLiczbyZespolone(n) {
+      const tablica = [];
+
+      for (let i = 0; i < n; i++) {
+        const rzeczywiste = Math.floor(Math.random() * 21) - 10;
+        const urojone = Math.floor(Math.random() * 21) - 10;
+
+        const liczba = new ComplexNumber(rzeczywiste, urojone);
+        tablica.push(liczba);
+      }
+
+      return tablica;
+    }
+
+// const nazwa = (parametry) => {
+// zawartosc funckji
+// };
+
+    // funckja lambda zadanie 4
+    const tylkoDodatnie = (tablica) =>
+      tablica.filter(z => z.rzeczywiste > 0 && z.urojone > 0);
+
+    // funkcja lambda zadanie 5
+    const zamienCzesci = (tablica) =>
+      tablica.map(z => new ComplexNumber(z.urojone, z.rzeczywiste));
+
+    // funkcja lambda zadanie 6
+    const sumaModulow = (tablica) =>
+      tablica.reduce((suma, z) => suma + z.module(), 0);
+
+    //funkcja lambda zadanie 7
+    const minModul = (tablica) =>
+      tablica.reduce((min, z) => {
+        const modul = z.module();
+        return modul < min ? modul : min;
+      }, Infinity);
+
+    //funkcja lambda zadanie 8
+    const maxModulLiczba = (tablica) =>
+      tablica.reduce((max, z) =>
+        z.module() > max.module() ? z : max
+      );
+
+
+    function test() {
+      const n = Number(document.getElementById("ilosc").value);
+
+      const liczby = generujLiczbyZespolone(n);
+
+      console.clear();
+      console.log("3");
+      liczby.forEach(liczba => console.log(liczba.wypisz(), "| moduł:", liczba.module()));
+
+      console.log("4");
+      tylkoDodatnie(liczby).forEach(liczba => console.log(liczba.wypisz()));
+
+      console.log("5");
+      zamienCzesci(liczby).forEach(liczba => console.log(liczba.wypisz()));
+
+      console.log("6");
+      console.log(sumaModulow(liczby));
+
+      console.log("7");
+      console.log(minModul(liczby));
+
+      console.log("8");
+      const max = maxModulLiczba(liczby);
+      if (max) {
+        console.log(max.wypisz() + "| moduł:" + max.module());
+      }
+    }
+  </script>
+</body>
+</html>
