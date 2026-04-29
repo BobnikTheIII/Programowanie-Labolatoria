@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektronik Kliker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        #wynik {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        #main-but {
+            margin-top: 20px;
+        }
+        #prestiz {
+            margin-top: 20px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        #ulepszenia, #automaty {
+            margin-top: 30px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wynik">
+        <span>Wiedza: </span> <span id="wynik-span">0</span>
+        <br>
+        <span>Wiedza na kliknięcie: </span> <span id="wiedza-na-klik">0</span>
+        <br>
+        <span>Wiedza na sekundę: </span> <span id="wiedza-na-sekunde">0</span>
+    </div>
+
+    <div id="main-but">
+        <button id="uczsie">
+            Uczęszczaj na zajęcia.
+        </button>
+    </div>
+
+    <div id="prestiz" style="color: gold; background-color: black;">
+        <span>Poziom Prestiżu: </span> <span id="prestiz-span">1</span><br><br>
+        <button id="prestiz-btn">Ucieknij z zakładu naukowego</button>
+    </div>
+
+    <div id="ulepszenia">
+        <button id="up-1" data-name="Długopis"></button>
+        <button id="up-2" data-name="Zeszyt"></button>
+        <button id="up-3" data-name="Gumka"></button>
+        <button id="up-4" data-name="Klej"></button>
+        <button id="up-5" data-name="Piórnik"></button>
+        <button id="up-6" data-name="Plecak"></button>
+        <button id="up-7" data-name="Taśma izolacyjna"></button>
+        <button id="up-8" data-name="Nożyczki"></button>
+        <button id="up-9" data-name="Otwieracz do butelek"></button>
+        <button id="up-10" data-name="Zaciskarka do wtyków RJ-45"></button>
+        <button id="up-11" data-name="RAM z komputerów szkolnych"></button>
+        <button id="up-12" data-name="Zestaw śrubokrętów"></button>
+        <button id="up-13" data-name="Klamka z okna"></button>
+        <button id="up-14" data-name="Krzesło szkolne"></button>
+        <button id="up-15" data-name="Szafa Materii"></button>
+    </div>
+
+    <div id="automaty">
+        <button id="aut-1" data-name="ECPU Microsoft Teams Polska"></button>
+        <button id="aut-2" data-name="Rakieta"></button>
+        <button id="aut-3" data-name="Bruce Lee"></button>
+        <button id="aut-4" data-name="LukiLew"></button>
+        <button id="aut-5" data-name="Vincent"></button>
+        <button id="aut-6" data-name="Papa Smerf"></button>
+        <button id="aut-7" data-name="Areczek"></button>
+        <button id="aut-8" data-name="Chmielu"></button>
+        <button id="aut-9" data-name="Wiedźmin"></button>
+        <button id="aut-10" data-name="Zbiggy G"></button>
+        <button id="aut-11" data-name="Zagusław"></button>
+        <button id="aut-12" data-name="Jacuś"></button>
+        <button id="aut-13" data-name="Gordon Freeman"></button>
+        <button id="aut-14" data-name="Antek"></button>
+        <button id="aut-15" data-name="Marna Materia"></button>
+    </div>
+
+    <script>
+        let wiedza = 0;
+        let click = 1;
+        let automat = 0;
+        let lvlUlepszen = 0;
+        let lvlAutomatow = 0;
+        let prestiz = 1;
+
+        const bazoweKosztyUlepszen = [15, 32, 52, 75, 101, 131, 166, 206, 252, 305, 366, 436, 516, 608, 714];
+        const bazoweBonusyUlepszen = [1, 2, 3, 5, 7, 10, 12, 15, 18, 22, 27, 33, 40, 45, 50];
+        const bazoweKosztyAutomatow = [100, 215, 347, 499, 674, 875, 1106, 1372, 1678, 2030, 2435, 2900, 3435, 4050, 4758];
+        const bazoweBonusyAutomatow = [1, 2, 3, 5, 7, 10, 12, 15, 18, 22, 27, 33, 40, 45, 50];
+
+        let kosztyUlepszen = [];
+        let bonusyUlepszen = [];
+        let kosztyAutomatow = [];
+        let bonusyAutomatow = [];
+
+        if (localStorage.getItem("prestiz")) prestiz = parseInt(localStorage.getItem("prestiz"));
+        if (localStorage.getItem("wiedza")) wiedza = parseInt(localStorage.getItem("wiedza"));
+        if (localStorage.getItem("click")) click = parseInt(localStorage.getItem("click"));
+        if (localStorage.getItem("automat")) automat = parseInt(localStorage.getItem("automat"));
+        if (localStorage.getItem("lvlUlepszen")) lvlUlepszen = parseInt(localStorage.getItem("lvlUlepszen"));
+        if (localStorage.getItem("lvlAutomatow")) lvlAutomatow = parseInt(localStorage.getItem("lvlAutomatow"));
+
+        function przeliczTablice() {
+            kosztyUlepszen = bazoweKosztyUlepszen.map(koszt => Math.floor(koszt * prestiz));
+            bonusyUlepszen = bazoweBonusyUlepszen.map(bonus => Math.floor(bonus));
+            kosztyAutomatow = bazoweKosztyAutomatow.map(koszt => Math.floor(koszt * prestiz));
+            bonusyAutomatow = bazoweBonusyAutomatow.map(bonus => Math.floor(bonus));
+        }
+
+        function updateUI() {
+            document.getElementById("wynik-span").innerText = wiedza;
+            document.getElementById("wiedza-na-klik").innerText = click;
+            document.getElementById("wiedza-na-sekunde").innerText = automat;
+            document.getElementById("prestiz-span").innerText = prestiz;
+
+            document.querySelectorAll("#ulepszenia button").forEach((button, index) => {
+                const nazwa = button.dataset.name;
+                button.innerHTML = `${nazwa}: <br><span style="color: red;">${kosztyUlepszen[index]} wiedzy</span>`;
+                button.style.display = index === lvlUlepszen ? "inline-block" : "none";
+            });
+
+            document.querySelectorAll("#automaty button").forEach((button, index) => {
+                const nazwa = button.dataset.name;
+                button.innerHTML = `${nazwa}: <br><span style="color: red;">${kosztyAutomatow[index]} wiedzy</span>`;
+                button.style.display = index === lvlAutomatow ? "inline-block" : "none";
+            });
+        }
+
+        document.getElementById("uczsie").addEventListener("click", function() {
+            wiedza += click;
+            updateUI();
+        });
+
+        document.querySelectorAll("#ulepszenia button").forEach((button, index) => {
+            button.addEventListener("click", function() {
+                if (index === lvlUlepszen && wiedza >= kosztyUlepszen[lvlUlepszen]) {
+                    wiedza -= kosztyUlepszen[lvlUlepszen];
+                    click += bonusyUlepszen[lvlUlepszen];
+                    lvlUlepszen++;
+                    updateUI();
+                }
+            });
+        });
+
+        document.querySelectorAll("#automaty button").forEach((button, index) => {
+            button.addEventListener("click", function() {
+                if (index === lvlAutomatow && wiedza >= kosztyAutomatow[lvlAutomatow]) {
+                    wiedza -= kosztyAutomatow[lvlAutomatow];
+                    automat += bonusyAutomatow[lvlAutomatow];
+                    lvlAutomatow++;
+                    updateUI();
+                }
+            });
+        });
+
+        document.getElementById("prestiz-btn").addEventListener("click", function() {
+            if (lvlAutomatow <= 14 && lvlUlepszen <= 14) {
+                alert("Musisz osiągnąć maksymalny poziom ulepszeń i automatów, aby zdobyć prestiż!");
+                return;
+            }
+            prestiz++;
+            lvlAutomatow = 0;
+            lvlUlepszen = 0;
+            automat = 0;
+            wiedza = 0;
+            click = 1 * prestiz;
+            
+            przeliczTablice();
+            updateUI();
+        });
+
+        setInterval(() => {
+            if (automat > 0) {
+                wiedza += automat;
+                document.getElementById("wynik-span").innerText = wiedza;
+            }
+        }, 1000);
+
+        window.addEventListener("beforeunload", function() {
+            localStorage.setItem("prestiz", prestiz);
+            localStorage.setItem("wiedza", wiedza);
+            localStorage.setItem("click", click);
+            localStorage.setItem("automat", automat);
+            localStorage.setItem("lvlUlepszen", lvlUlepszen);
+            localStorage.setItem("lvlAutomatow", lvlAutomatow);
+        });
+
+        przeliczTablice();
+        updateUI();
+
+    </script>
+</body>
+</html>
